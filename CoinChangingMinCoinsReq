@@ -1,0 +1,55 @@
+package coin.changing.min.no.of.conis.required;
+
+public class CoinChangingMinCoins {
+
+	public static int minNoOfCoins(int[] coins, int total) {
+
+		if (coins == null || coins.length == 0)
+			return 0;
+
+		int[][] t = new int[coins.length + 1][total + 1];
+
+		for (int i = 0; i <= coins.length; i++) {
+			t[i][0] = 0;
+		}
+		
+		for (int i = 0; i <= total; i++) {
+			t[0][i]=i;
+		}
+		
+		for (int i = 1; i <= total; i++) {
+			if(coins[0]>i)
+				t[1][i]=0;
+			else
+				t[1][i]=i;
+		}
+		
+		for (int i = 2; i <= coins.length; i++) {
+			for (int j = 1; j <= total; j++) {
+				/*if(coins[i - 1] == j){
+					t[i][j]=1;
+				}else*/ if (coins[i - 1] <= j) {
+					t[i][j] = Math.min(t[i - 1][j], t[i][j - coins[i - 1]])+1;
+				} else {
+					t[i][j] = t[i - 1][j];
+				}
+			}
+		}
+
+
+		for (int i = 0; i < t.length; i++) {
+			for (int j = 0; j < t[i].length; j++) {
+				System.out.print(t[i][j] + " ");
+			}
+			System.out.println();
+		}
+		
+		return t[coins.length - 1][total - 1];
+	}
+
+	public static void main(String[] args) {
+		int[] coins = { 1, 5, 6, 8 };
+		int total = 11;
+		System.out.println(CoinChangingMinCoins.minNoOfCoins(coins, total));
+	}
+}
