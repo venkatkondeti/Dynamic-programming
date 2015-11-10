@@ -1,4 +1,4 @@
-
+package com.dp;
 public class MaxSubArray {
 	Result maxSubArray(int[] a){
 		if(a==null)
